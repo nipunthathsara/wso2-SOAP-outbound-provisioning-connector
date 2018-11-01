@@ -24,7 +24,9 @@ import org.wso2.carbon.identity.provisioning.IdentityProvisioningException;
 import org.wso2.carbon.identity.provisioning.ProvisionedIdentifier;
 import org.wso2.carbon.identity.provisioning.ProvisioningEntity;
 
-public class OutboundSOAPConnector extends AbstractOutboundProvisioningConnector {
+public class SOAPProvisioningConnector extends AbstractOutboundProvisioningConnector {
+    //TODO UUID
+
     @Override
     public void init(Property[] properties) throws IdentityProvisioningException {
 
@@ -33,5 +35,10 @@ public class OutboundSOAPConnector extends AbstractOutboundProvisioningConnector
     @Override
     public ProvisionedIdentifier provision(ProvisioningEntity provisioningEntity) throws IdentityProvisioningException {
         return null;
+    }
+
+    @Override
+    protected boolean isJitProvisioningEnabled() throws IdentityProvisioningException {
+        return false;
     }
 }

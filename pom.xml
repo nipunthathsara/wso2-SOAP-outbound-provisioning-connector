@@ -20,6 +20,7 @@
         <carbon.identity.framework.version>5.12.153</carbon.identity.framework.version>
         <version.commons.logging>1.1.1</version.commons.logging>
         <carbon.kernel.version>4.4.35</carbon.kernel.version>
+        <maven.scr.plugin.version>1.7.2</maven.scr.plugin.version>
     </properties>
 
     <dependencies>
@@ -45,6 +46,15 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-scr-plugin</artifactId>
+                <version>${maven.scr.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-scr-descriptor</id>
+                        <goals>
+                            <goal>scr</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
@@ -57,10 +67,10 @@
                         <Private-Package>
                             org.wso2.custom.outbound.soap.internal
                         </Private-Package>
-                        <Import-Package></Import-Package>
+                        <!--<Import-Package></Import-Package>-->
                         <Export-Package>
                             !org.wso2.custom.outbound.soap.internal,
-                            org.wso2.custom.outbound.soap.*
+                            org.wso2.custom.outbound.soap
                         </Export-Package>
                         <Embed-Dependency></Embed-Dependency>
                         <DynamicImport-Package>*</DynamicImport-Package>

@@ -21,12 +21,11 @@ package org.wso2.custom.outbound.soap.internal;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.service.component.ComponentContext;
-import org.wso2.carbon.identity.provisioning.AbstractOutboundProvisioningConnector;
-import org.wso2.custom.outbound.soap.OutboundSOAPConnector;
+import org.wso2.carbon.identity.provisioning.AbstractProvisioningConnectorFactory;
+import org.wso2.custom.outbound.soap.SOAPProvisioningFactory;
 
 /**
- * @scr.component name="org.wso2.custom.outbound.soap.connector"
- * immediate="true"
+ * @scr.component name="org.wso2.custom.outbound.soap.connector" immediate="true"
  */
 public class OutboundSOAPServiceComponent {
     private static Log log = LogFactory.getLog(OutboundSOAPServiceComponent.class);
@@ -35,10 +34,9 @@ public class OutboundSOAPServiceComponent {
         if (log.isDebugEnabled()) {
             log.debug("Activating SOAP outbound provisioning connector...");
         }
-        //TODO check why google connector registers by Factory
-        OutboundSOAPConnector outboundSOAPConnector = new OutboundSOAPConnector();
-        context.getBundleContext().registerService(AbstractOutboundProvisioningConnector.class.getName(),
-                outboundSOAPConnector, null);
+        SOAPProvisioningFactory soapProvisioningFactory = new SOAPProvisioningFactory();
+        context.getBundleContext().registerService(AbstractProvisioningConnectorFactory.class.getName(),
+                soapProvisioningFactory, null);
         try {
             if (log.isDebugEnabled()) {
                 log.debug("SOAP outbound provisioning connector is activated");
