@@ -7,7 +7,11 @@
     <groupId>org.wso2.custom.outbound.soap</groupId>
     <artifactId>wso2.soap.outbound.provision.connector</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>bundle</packaging>
+    <modules>
+        <module>stub-generator</module>
+        <module>wso2-outbound-soap-provisioning-connector</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <name>wso2.soap.outbound.provision.connector</name>
     <!-- FIXME change it to the project's website -->
@@ -52,158 +56,6 @@
             <version>${axis2.wso2.version}</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-scr-plugin</artifactId>
-                <version>${maven.scr.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>generate-scr-descriptor</id>
-                        <goals>
-                            <goal>scr</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Name>${project.artifactId}</Bundle-Name>
-                        <Private-Package>
-                            org.wso2.custom.outbound.soap.internal
-                        </Private-Package>
-                        <!--<Import-Package></Import-Package>-->
-                        <Export-Package>
-                            !org.wso2.custom.outbound.soap.internal,
-                            org.wso2.custom.outbound.soap
-                        </Export-Package>
-                        <Embed-Dependency></Embed-Dependency>
-                        <DynamicImport-Package>*</DynamicImport-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-
-            <!--<plugin>-->
-            <!--<groupId>org.codehaus.mojo</groupId>-->
-            <!--<artifactId>jaxws-maven-plugin</artifactId>-->
-            <!--<version>1.12</version>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>wsimport-from-jdk</id>-->
-            <!--<goals>-->
-            <!--<goal>wsimport</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--<configuration>-->
-            <!--&lt;!&ndash; using wsdl from an url &ndash;&gt;-->
-            <!--&lt;!&ndash;<wsdlUrls>&ndash;&gt;-->
-            <!--&lt;!&ndash;<wsdlUrl>&ndash;&gt;-->
-            <!--&lt;!&ndash;http://myWSDLurl?wsdl&ndash;&gt;-->
-            <!--&lt;!&ndash;</wsdlUrl>&ndash;&gt;-->
-            <!--&lt;!&ndash;</wsdlUrls>&ndash;&gt;-->
-            <!--&lt;!&ndash; or using wsdls file directory &ndash;&gt;-->
-            <!--<wsdlDirectory>${project.basedir}/src/main/resources/wsdl</wsdlDirectory>-->
-            <!--&lt;!&ndash; which wsdl file &ndash;&gt;-->
-            <!--<wsdlFiles>-->
-            <!--<wsdlFile>Calculator.wsdl.xml</wsdlFile>-->
-            <!--</wsdlFiles>-->
-            <!--&lt;!&ndash; Keep generated files &ndash;&gt;-->
-            <!--<keep>true</keep>-->
-            <!--&lt;!&ndash; Package name &ndash;&gt;-->
-            <!--<packageName>org.vfuk.stub</packageName>-->
-            <!--&lt;!&ndash; generated source files destination&ndash;&gt;-->
-            <!--<sourceDestDir>target/generatedclasses</sourceDestDir>-->
-            <!--</configuration>-->
-            <!--</plugin>-->
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <id>source-code-generation</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <tasks>
-                                <path id="wsdl2java.classpath">
-                                    <pathelement
-                                            location="${settings.localRepository}/org/apache/ws/commons/axiom/wso2/axiom/${axiom.wso2.version}/axiom-${axiom.wso2.version}.jar"/>
-                                    <pathelement
-                                            location="${settings.localRepository}/org/apache/axis2/wso2/axis2-client/${axis2.wso2.version}/axis2-client-${axis2.wso2.version}.jar"/>
-                                    <pathelement
-                                            location="${settings.localRepository}/org/apache/axis2/wso2/axis2/${axis2.wso2.version}/axis2-${axis2.wso2.version}.jar"/>
-                                </path>
-                                <java classname="org.apache.axis2.wsdl.WSDL2Java" fork="true">
-                                    <arg line="-uri src/main/resources/wsdl/Calculator.wsdl.xml -u -uw -o target/generated-code -p org.wso2.calculator.stub -ns2p http://application.mgt.identity.carbon.wso2.org=org.wso2.carbon.identity.application.mgt.stub,http://dto.application.mgt.identity.carbon.wso2.org/xsd=org.wso2.carbon.identity.application.mgt.stub.dto,http://entitlement.application.mgt.carbon.wso2.org/xsd=org.wso2.carbon.identity.application.mgt.stub.types,http://org.apache.axis2/xsd=org.wso2.carbon.identity.application.mgt.stub.types.axis2"/>
-                                    <classpath refid="wsdl2java.classpath"/>
-                                    <classpath refid="maven.dependency.classpath"/>
-                                    <classpath refid="maven.compile.classpath"/>
-                                    <classpath refid="maven.runtime.classpath"/>
-                                </java>
-                            </tasks>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--<plugin>-->
-            <!--<groupId>org.codehaus.mojo</groupId>-->
-            <!--<artifactId>build-helper-maven-plugin</artifactId>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>add-source</id>-->
-            <!--<phase>generate-sources</phase>-->
-            <!--<goals>-->
-            <!--<goal>add-source</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-            <!--<sources>-->
-            <!--<source>-->
-            <!--target/generated-code/src-->
-            <!--</source>-->
-            <!--</sources>-->
-            <!--</configuration>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources01</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/src/main/java</outputDirectory>
-                            <encoding>UTF-8</encoding>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/target/generated-code/src</directory>
-                                    <includes>
-                                        <include>*.java</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
     <repositories>
         <repository>
