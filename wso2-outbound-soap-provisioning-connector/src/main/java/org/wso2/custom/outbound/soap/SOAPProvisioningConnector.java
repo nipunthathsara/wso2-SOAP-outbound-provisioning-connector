@@ -18,10 +18,15 @@
 
 package org.wso2.custom.outbound.soap;
 
+//import org.apache.axis2.AxisFault;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.calculator.stub.Calculator;
+import org.wso2.calculator.stub.CalculatorStub;
 import org.wso2.carbon.identity.application.common.model.Property;
 import org.wso2.carbon.identity.provisioning.*;
+
+import java.rmi.RemoteException;
 
 public class SOAPProvisioningConnector extends AbstractOutboundProvisioningConnector {
     private static Log log = LogFactory.getLog(SOAPProvisioningConnector.class);
@@ -55,7 +60,11 @@ public class SOAPProvisioningConnector extends AbstractOutboundProvisioningConne
     private void provisionUser(ProvisioningEntity provisioningEntity) throws IdentityProvisioningException {
         if (provisioningEntity.getOperation() == ProvisioningOperation.POST) {
             log.error("**************cPrereate");
-            test();
+            try {
+                test();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             log.error("**************Postcreate");
         } else if (provisioningEntity.getOperation() == ProvisioningOperation.DELETE) {
             log.error("**************delete");
@@ -67,7 +76,8 @@ public class SOAPProvisioningConnector extends AbstractOutboundProvisioningConne
         }
     }
 
-    private void test(){
-
+    private void test() throws RemoteException {
+        CalculatorStub calculatorStub = new CalculatorStub("http://156.56.179.164:9763/services/Calculator.CalculatorHttpSoap11Endpoint");
+        log.info("***********" + calculatorStub.add(24,56));
     }
 }

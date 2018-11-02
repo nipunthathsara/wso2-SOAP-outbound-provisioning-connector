@@ -15,6 +15,14 @@
         <maven.scr.plugin.version>1.7.2</maven.scr.plugin.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.wso2.custom.outbound.soap</groupId>
+            <artifactId>stub-generator</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -46,34 +54,13 @@
                             !org.wso2.custom.outbound.soap.internal,
                             org.wso2.custom.outbound.soap
                         </Export-Package>
-                        <Embed-Dependency></Embed-Dependency>
-                        <DynamicImport-Package>*</DynamicImport-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Name>${project.artifactId}</Bundle-Name>
-                        <Private-Package>
-                            org.wso2.custom.outbound.soap.internal
-                        </Private-Package>
-                        <!--<Import-Package></Import-Package>-->
-                        <Export-Package>
-                            !org.wso2.custom.outbound.soap.internal,
-                            org.wso2.custom.outbound.soap
-                        </Export-Package>
-                        <Embed-Dependency></Embed-Dependency>
+                        <Embed-Dependency>stub-generator</Embed-Dependency>
+                        <!--<Embed-Transitive>true</Embed-Transitive>-->
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 
 </project>
